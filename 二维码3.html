@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	 <style>
+	        *{
+	            padding:0;
+	            margin:0;
+	        }
+			.top{
+				width: 100%;
+				height: 80px;
+				
+				background-color: gray;
+				/* margin-top: 20px; */
+			}
+	        table{
+	            width:1300px;
+	            margin:100px auto;
+	            border-collapse:collapse;/*边框合并模式*/
+	            text-align:center;
+	        }
+	        td,th{
+	            border:1px solid #333;
+	        }
+	        thead tr{
+	            height:50px;
+	            background-color: #cccccc;
+	        }
+			tr{
+				height: 35px;
+			}
+	    </style>
+</head>
+	<script src="../../js/qrcode.js"></script>
+	<!--打包下载-->
+	<script src="../../js/jszip.min.js"></script>
+	<script src="../../js/FileSaver.js"></script>
+
+ <body>	
+	<div class="top">
+		<h1 align="center">中国正品溯源数据平台系统架构及系统设计</h1>
+	</div>
+
+	<button class="mx-1 text-align background-main-lan font-bai px-2 border-radius-5 float-l cursor
+	createClick" style="height: 38px;line-height: 1.3;border: none;">
+	生成二维码
+	</button>
+	<button class="mx-1 text-align background-main-lan font-bai px-2 border-radius-5 float-l cursor
+	downloadClick" style="height: 38px;line-height: 1.3;border: none;display: none;">
+	下载二维码
+	</button>
+
+	<table>
+		<thead>
+		        <tr>
+		            <th>产品种类</th>
+		            <th>产品编号</th>
+		            <!-- <th>序号</th> -->
+		            <th>产品名称</th>
+		            <th>播种日期</th>										
+		            <th>种植地点</th>										
+		            <th>单位名称</th>										
+		            <th>生产日期</th>										
+		            <th>最后操作人</th>										
+		            <th>扫码地点</th>										
+		            <th>操作</th>
+		        </tr>
+		    </thead>
+		
+		    <tbody>
+		
+		    </tbody>
+	</table>
+
+	<!-- 虚拟点击下载按钮 -->
+
+	<a id="downloadLink" style="display: none;"></a>
+
+	<!-- 保存二维码容器 -->
+	<div id="qrcode" style="width:220px; height:220px; margin-top:15px;display: none;"></div>
+	</body>
+
+ 
+<style>
+<!-- 定义变量 -->
+
+	var width =180;
+	var height=180;
+	var count=0;
+	var type="";
+	var url;
+	var urls=[];
+	<!-- 生成二维码 -->
+	$(".createClick").click(function(){
+
+	<!-- 在点击是清空变量 -->
+	count=0;
+	type="";
+	url;
+	urls=[];
+	$('#qrcode').html("")
+
+	var tabledata = table.checkStatus('iddevcie').data; // 选择生成二维码所有数据
+	if(tabledata.length<1){
+	layer.msg("请选择数据",{icon: 2});
+	return false;
+	}
+	//生成二维码(生成链接二维码)
+	var path=url+"所需传递参数";  //如var path="https://www.baidu.com/s=";
+	for(var k in tabledata){//遍历全部数据生成二维码
+	var qrcode = new QRCode(document.getElementById("qrcode"), {
+	width : width,
+	height : height,
+	text:path+“所需参数值”,  //:path+tabledata[k].type
+	label:tabledata[k].type  //可选 下载二维码时二维码下方显示信息
+	});
+	count++;
+	}
+	$(".downloadClick").show();
+	$(".downloadClick").html("下载"+count+"个二维码")
+	});
+	var zip = new JSZip();
+	var texts;
+	//下载
+	$(".downloadClick").click(function(){
+	// 获取base64的图片节点
+	var img = document.getElementById('qrcode').getElementsByTagtype('img');
+
+	// 构建画布
+	var canvas = document.createElement('canvas');
+	//var i=img.length;
+	for(var im in img){
+	if(im<img.length){
+	canvas.width = width+40;
+	canvas.height = height+40;
+
+	var ctx = canvas.getContext('2d');
+	ctx.fillStyle = '#000000';
+	ctx.font = 'bold 16px Arial';
+	ctx.textAlign = 'center';
+	ctx.drawImage(img[im], 0, 0);
+	ctx.fillText(img[im].alt,110,215);
+	setTimeout(() => {
+	ctx.fillText(img[im].alt,110,215);
+	}, 500);
+	// 构造url
+	url = canvas.toDataURL('image/png');
+	urls.push(url);
+	type=img[im].alt;  //alt 在qrcode源码有赋值
+	zip.file(type+'.png',url.substring(22),{base64:true})
+	}
+	}
+
+	/**下载二维码压缩包 data.substring(22)*/
+	/* 创建压缩包对象 jszip.js\ */
+
+	/* 下载压缩包 */
+	zip.generateAsync({ type: "blob" }).then(function (content) {
+	 /* see FileSaver.js */
+	saveAs(content, "设备二维码.zip");
+	});
+
+	})
+
+</style>
+<script>
+    //1,先准备数据
+    var datas=[{
+        type:"农产品",
+        cpbh:"N-Mi-120220001",
+		cpname:"黄庄大米",
+		bzdate:"2020/03/01",
+		zzplace:"天津市宝坻区黄庄大米生态种植区",
+		dwname:"黄庄大米生态种植区",
+		scdate:"2020/10/15",
+		ficzr:"张三",
+		smplace:"天津市",
+    },{
+        type:"农产品",
+        cpbh:"N-Mi-120220001",
+        cpname:"黄庄大米",
+        bzdate:"2020/03/01",
+        zzplace:"天津市宝坻区黄庄大米生态种植区",
+        dwname:"黄庄大米生态种植区",
+        scdate:"2020/10/15",
+        ficzr:"张三",
+        smplace:"天津市",
+    },{
+       type:"农产品",
+       cpbh:"N-Mi-120220001",
+       cpname:"黄庄大米",
+       bzdate:"2020/03/01",
+       zzplace:"天津市宝坻区黄庄大米生态种植区",
+       dwname:"黄庄大米生态种植区",
+       scdate:"2020/10/15",
+       ficzr:"张三",
+       smplace:"天津市",
+    }];
+    //2,往tbody里面创建行，有几个人（通过数组的长度）我们就创建几行
+    var tbody=document.querySelector("tbody");
+    for(var i=0;i<datas.length;i++)  //外面的for循环 是 行tr
+    {
+        var tr=document.createElement("tr");
+        tbody.appendChild(tr);
+        //3,往tr每一行里面创建单元格（跟数据有关系的3个单元格），td单元格的数量取决于每个对象的属性个数 for循环遍历对象 datas[i]
+        for(var k in datas[i])   //里面的for循环是 列
+        {
+            var td=document.createElement("td");  //创建单元格
+            tr.appendChild(td);
+            td.innerHTML=datas[i][k]; //把对象里面的属性值 datas[i][k]给td
+        }
+        //4，创建有删除二字的单元格
+        var td=document.createElement("td");
+        tr.appendChild(td);
+        td.innerHTML="<a href='javascript:;'>删除</a>&nbsp;&nbsp;<button>生成二维码</button>";
+        // td.innerHTML="<button>生成二维码</button>";
+    }
+
+    //5,删除操作
+    var as=document.querySelectorAll("a");
+    for(var i=0;i<as.length;i++)
+    {
+        as[i].onclick=function () {  //点击a 删除 当前a 所在的行（a链接的爸爸的爸爸）
+            tbody.removeChild(this.parentNode.parentNode);
+        }
+    }
+</script>
+
+</html>

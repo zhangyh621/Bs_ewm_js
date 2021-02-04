@@ -11,13 +11,39 @@
 			.top{
 				width: 100%;
 				height: 80px;
-				
-				background-color: gray;
-				/* margin-top: 20px; */
+				background-color: black;
+			}
+			.left{
+				width: 200px;
+				height: 640px;
+				float: left;
+				background-color: black;
+			}
+			.fun{
+				width:1300px;
+				margin-left:220px;
+				margin-top:60px;
+				/* text-align:center; */
+				color: black;
+			}
+			.ssk input{
+				width:180px;
+				height:20px;
+				float:left
+			}
+			.ssan{
+				/* width:60px;
+				height:24px; */
+				float:left
+			}
+			.xzan{
+				float: right;
 			}
 	        table{
 	            width:1300px;
-	            margin:100px auto;
+	            /* margin:100px auto; */
+	            margin:auto;
+				margin-top: 100px;
 	            border-collapse:collapse;/*边框合并模式*/
 	            text-align:center;
 	        }
@@ -32,6 +58,16 @@
 				height: 35px;
 			}
 	    </style>
+		<style type="text/css">
+		    div,ul,li{padding:0px;margin:0px;}
+		    ul{list-style:none;}
+		    ul{width:100%;margin:0 auto;background: #a40000;height:80px;}
+		    ul li{float:left;height: 80px;line-height: 80px;text-align: center;}
+		    ul li a{font-size: 24px;text-decoration: none;height:80px;display: block;float: center;padding:0 10px;text-decoration: none;color:#fff;}
+		    ul li a{font-size: 24px;text-decoration: none;height:80px;display: block;float: center;padding:0 10px;text-decoration: none;color:#fff;}
+		    ul li a{font-size: 24px;text-decoration: none;height:80px;display: block;float: center;padding:0 10px;text-decoration: none;color:#fff;}
+		    ul li a:hover{background:  #DAA520;}
+		</style>
 </head>
 	<script src="../../js/qrcode.js"></script>
 	<!--打包下载-->
@@ -40,18 +76,42 @@
 
  <body>	
 	<div class="top">
-		<h1 align="center">中国正品溯源数据平台系统架构及系统设计</h1>
+		<div class="bt" style="padding-top:20px;">
+			<h1 align="center" style="color: white">中国正品溯源数据平台系统架构及系统设计</h1>
+		</div>
 	</div>
-
-	<button class="mx-1 text-align background-main-lan font-bai px-2 border-radius-5 float-l cursor
+	<div class="left">
+		
+	</div>
+	<!-- <button class="mx-1 text-align background-main-lan font-bai px-2 border-radius-5 float-l cursor
 	createClick" style="height: 38px;line-height: 1.3;border: none;">
 	生成二维码
 	</button>
 	<button class="mx-1 text-align background-main-lan font-bai px-2 border-radius-5 float-l cursor
 	downloadClick" style="height: 38px;line-height: 1.3;border: none;display: none;">
 	下载二维码
-	</button>
+	</button> -->
+	<div class="dht">
+		<ul>
+			<li><a href="http://www.baidu.com">农产品模块</a></li>
+			<li><a href="http://www.baidu.com">医药模块</a></li>
+			<li><a href="http://www.baidu.com">生活用品模块</a></li>
+			<li><a href="http://www.baidu.com">装饰建材模块</a></li>
+			<li><a href="http://www.baidu.com">服饰模块</a></li>
+			<li><a href="http://www.baidu.com">汽车模块</a></li>
+			<li><a href="http://www.baidu.com">其他模块</a></li>
+		</ul>
+	</div>
 
+	<div class="fun">
+		<form action="" method="get">
+			<div class="ssk"><input name="" type="text" placeholder="请输入产品编号或产品名称"/></div><!--搜索框-->
+			<div class="ssan"><button>搜索</button></div>
+		</form>
+		<form action="" method="addnew">
+			<div class="xzan"><button>新增</button></div>
+		</form>
+	</div>
 	<table>
 		<thead>
 		        <tr>
